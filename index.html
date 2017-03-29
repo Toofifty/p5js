@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- libraries -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/p5.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/addons/p5.dom.min.js"></script>
+    <!-- internal -->
+    <link rel="stylesheet" href="css/main.css">
+    <title>p5js</title>
+  </head>
+  <body>
+    <div id="nav" class="side-panel">
+      <h1 class="header">sketches</h1>
+      <ul id="sketch-list" class="side-list">
+      </ul>
+    </div>
+
+    <div id="main" class="main">
+      <div class="sketch-container">
+        <h1 id="title">sample</h1><h6 id="source-link">( <a href="#">source</a> )</h6>
+        <div id="sketch"></div>
+        <p id="description"></p>
+      </div>
+    </div>
+
+    <div id="controls" class="side-panel">
+      <h1 class="header">controls</h1>
+      <ul id="control-list" class="side-list">
+      </ul>
+      <div class="reset-container">
+        <button class="ui right labeled icon button outline centered" onclick="sketch.reload()">
+          <i class="refresh icon"></i>
+          restart sketch
+        </button>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="js/option.js"></script>
+    <script type="text/javascript" src="js/loader.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+  </body>
+</html>
