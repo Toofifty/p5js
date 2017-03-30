@@ -40,8 +40,24 @@ var page = {
    * Hides the description if arg 1 is null
    */
   set_description: function (desc) {
-    desc = desc || ''
-    $('#description').html(desc)
+    var $description = $('#description')
+    if (desc) {
+      $description.html(desc)
+      if (!$description.hasClass('show')) {
+        $description.addClass('show')
+      }
+    } else if ($description.hasClass('show')) {
+      $description.removeClass('show')
+    }
+  },
+
+  /**
+   * Activate the sketch on the left hand
+   * side navigation (and deactivate all others)
+   */
+  set_active: function (sketch_name) {
+    $('.sketch-list-option').removeClass('active')
+    $('#nav-sketch-' + sketch_name).addClass('active')
   },
 
   cover_delay: function () {
@@ -66,20 +82,33 @@ var sketch = {
   canvas: null,
   container: $(OPT.sketch_container),
 
-  width: function () {
-    return this.container.width()
-  },
-
-  height: function () {
-    return this.container.height()
-  },
+  width: 0,
+  height: 0,
 
   reload: function () {
     load(this.name)
   },
 
+  play_pause: function () {
+    if ($('.fa-pause').length > 0) this.pause()
+    else this.play()
+  },
+
+  pause: function () {
+    if (this.canvas) noLoop()
+    $('.fa-pause').removeClass('fa-pause').addClass('fa-play')
+  },
+
+  play: function () {
+    if (this.canvas) loop()
+    $('.fa-play').removeClass('fa-play').addClass('fa-pause')
+  },
+
   load_canvas: function () {
-    this.canvas = createCanvas(this.width(), this.height())
+    this.width = this.container.width()
+    this.height = this.container.height()
+
+    this.canvas = createCanvas(this.width, this.height)
     this.canvas.parent(OPT.sketch_container);
 
     console.log('SKETCH: Canvas loaded')
@@ -90,7 +119,7 @@ var sketch = {
  * Object for binding variables to buttons, toggles
  * and sliders on the control panel
  */
-var bind = {
+const bind = {
   controls: {},
 
   toggle: function (label, value) {
@@ -98,22 +127,37 @@ var bind = {
     return {}
   },
 
-  slider: function (label, value, min, max, step) {
-    var name = label.toLowerCase().replace(' ', '_')
-    console.log('BIND: ' + name)
-    this.controls[name] = {
-      element: $('<li><div class="ui labeled input slider-container">'
-        + '<div class="ui label">' + label + '</div>'
-        + '<input type="number" value="' + value + '">'
-        + '</div></li>'),
+  number: function (label, value, min, max, step) {
+    value = parseFloat(value)
+    let name = label.toLowerCase().replace(' ', '_')
+    console.log('BIND: number::' + name)
+
+    let control = {
+      el: null,
       v: value,
-      min: min,
-      max: max,
-      step: step
+      initial: value,
+      update: function () {
+        this.el.children('input').val(parseFloat(this.v).toFixed(3))
+      }
     }
-    console.log(this.controls[name])
-    $('#control-list').append(this.controls[name].element)
-    return this.controls[name]
+
+    let input = $('<input '
+      + 'type="number" '
+      + 'value="' + value.toFixed(3) +'" '
+      + (min ? 'min="' + min + '" ' : '')
+      + (max ? 'max="' + max + '" ' : '')
+      + (step ? 'step="' + step + '" ' : '')
+      + '>'
+    ).change(function () {
+      control.v = parseFloat($(this).val())
+    })
+    let input_label = $('<div class="control label">' + label + '</div>')
+
+    control.el = $('<li>').append(input_label).append(input);
+
+    this.controls[name] = control
+    $('#control-list').append(control.el)
+    return control
   },
 
   button: function (label, callback) {
@@ -122,25 +166,33 @@ var bind = {
   },
 
   destroy: function () {
-    this.controls = {}
-    console.log('BIND: Destroyed controls')
+    let self = this
+    for (i in this.controls) {
+      this.controls[i].el.addClass('removed')
+    }
+    setTimeout(function () {
+      for (i in self.controls) {
+        console.log(self.controls)
+        self.controls[i].el.remove()
+      }
+      self.controls = {}
+      console.log('BIND: Destroyed controls')
+    }, 250)
   }
 }
 
 var load = function (sketch_name) {
   page.fade_in()
+  bind.destroy()
+  sketch.pause()
   setTimeout(function () {
-    var already_loaded = sketch.canvas != null
-    if (already_loaded) {
-      bind.destroy()
-    }
-
     sketch.name = sketch_name
+    page.set_active(sketch_name)
 
     $.getScript(OPT.host + OPT.sketch_dir + sketch_name + '.js')
       .done(function (script, status) {
         console.log(script)
-        if (already_loaded) setup()
+        setup()
         page.fade_out()
       })
       .fail(function (request, settings, exception) {
@@ -149,4 +201,30 @@ var load = function (sketch_name) {
   }, 250)
 }
 
-load('dummy')
+/**
+ * Dummy p5 sketch
+ * For settings things up before loading
+ * an actual sketch
+ */
+var setup = function () {
+  sketch.load_canvas()
+  console.log('Initialized dummy sketch')
+}
+
+var draw = function () {
+  console.log('Dummy sketch is still drawing')
+}
+
+var mousePressed = function () {
+  console.log('Dummy mouse pressed')
+}
+
+var keyPressed = function () {
+  console.log('Dummy key pressed')
+}
+
+setTimeout(function () {
+  setup()
+  // load in the first (default) sketch
+  load(OPT.sketches[0])
+}, 2000)

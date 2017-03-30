@@ -1,15 +1,14 @@
 $font: "PT Sans", sans-serif;
 $title-font: "Titillium Web", $font;
 
-$bg-low: #16111A;
-$bg-mid: #201E23;
-$bg-high: #68616E;
-$bg-top: #BAB2C0;
+$bg-low: #202020;
+$bg-mid: #222;
+$bg-high: #777;
+$bg-top: #aaa;
 
 $hl-green: #0DBA62;
 $hl-blue: #187975;
 $hl-white: #fff;
 
-// @mixin linear-gradient {
-//   -webkit-linear-gradient
-// }
+$br-light: rgba(255, 255, 255, 0.1);
+$br-dark: rgba(0, 0, 0, 0.5);

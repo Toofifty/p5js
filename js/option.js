@@ -5,8 +5,8 @@ var OPT = {
   host: window.location.protocol + '//' + window.location.hostname,
   sketch_dir: '/sketch/',
   sketches: [
-    'dummy',
     'lorenz',
+    'shoot',
     'test'
   ]
 }
