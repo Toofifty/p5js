@@ -11,5 +11,5 @@ var OPT = {
   ]
 }
 
-if (true) OPT.host = OPT.host + ':8080'
+if (OPT.dev) OPT.host = OPT.host + ':8080'
 else OPT.host = OPT.host + '/p5js'
