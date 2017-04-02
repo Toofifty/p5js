@@ -8,6 +8,9 @@ var c = bind.number('beta', 8/3)
 
 var sw = bind.number('stroke_weight', 1)
 
+var speed = bind.number('speed', 1)
+var fade = bind.toggle('fade', false)
+
 page.set_title('lorenz attractor')
 page.set_source()
 page.set_description('A Lorenz Attractor, a "set of chaotic solutions of the Lorenz system which, when plotted, resemble a butterfly or figure eight."<br><a href="https://en.wikipedia.org/wiki/Lorenz_system">Wikipedia</a>')
@@ -21,10 +24,16 @@ setup = function () {
 }
 
 draw = function () {
+	if (fade.v) {
+		noStroke()
+		fill(32, 4)
+		rect(0, 0, sketch.width, sketch.height)
+	}
+
 	var ct = 0
 	translate(sketch.width / 2, sketch.height / 2)
 	strokeWeight(sw.v)
-	while (ct < 1) {
+	while (ct < 1 * speed.v) {
 		ct += 1
 
 		var dt = 0.005

@@ -33,6 +33,7 @@
   width: 300px;
   top: 0;
   z-index: 5;
+  transition: 0.5s;
   background: #202020;
   color: #777;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -54,9 +55,25 @@
     .side-panel .side-list li {
       padding: 10px 20px;
       transition: 0.1s; }
+  .side-panel .hide-arrow {
+    position: absolute;
+    bottom: 0;
+    padding: 15px;
+    transition: 0.15s; }
+    .side-panel .hide-arrow.right-arrow {
+      left: -40px; }
+    .side-panel .hide-arrow.left-arrow {
+      right: -40px; }
+    .side-panel .hide-arrow:hover {
+      color: #fff;
+      cursor: pointer; }
 
 #nav {
   left: 0; }
+  #nav.hidden {
+    transform: translateX(-100%); }
+  #nav .hide-arrow.flipped {
+    transform: rotate(-180deg); }
   #nav li.active {
     color: #aaa; }
   #nav li:hover {
@@ -67,6 +84,10 @@
 #controls {
   right: 0;
   color: #aaa; }
+  #controls.hidden {
+    transform: translateX(100%); }
+  #controls .hide-arrow.flipped {
+    transform: rotate(180deg); }
   #controls .action.outline {
     border: 2px solid #187975;
     color: #187975;
@@ -144,7 +165,6 @@ body {
   #main .sketch-container {
     max-width: 1200px;
     margin: 0 auto;
-    /*padding: 50px;*/
     transition: 0.5s; }
     #main .sketch-container.fade {
       opacity: 0; }
@@ -193,6 +213,7 @@ body {
       font-weight: lighter;
       font-size: 1em;
       margin-top: 40px;
+      margin-bottom: 40px;
       margin-left: auto;
       width: 600px;
       opacity: 0; }

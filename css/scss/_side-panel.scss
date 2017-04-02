@@ -2,158 +2,196 @@
 @import "_animation.scss";
 
 .side-panel {
-  position: fixed;
-  height: 100%;
-  width: 300px;
+    position: fixed;
+    height: 100%;
+    width: 300px;
 
-  top: 0;
-  z-index: 5;
+    top: 0;
+    z-index: 5;
 
-  background: $bg-low;
-  color: $bg-high;
+    transition: 0.5s;
 
-  border: 1px solid $br-light;
-  box-shadow: 0 0 5px $br-dark;
+    background: $bg-low;
+    color: $bg-high;
 
-  .header {
-    font-family: $title-font;
-    color: $hl-green;
-    padding: 20px;
-    margin: 0;
-  }
+    border: 1px solid $br-light;
+    box-shadow: 0 0 5px $br-dark;
 
-  .side-list {
-    font-family: $font;
-    font-weight: bolder;
-    font-size: 1.2em;
-
-    max-height: 100%;
-    overflow-y: auto;
-
-    margin: 0;
-    padding: 0;
-
-    list-style: none;
-
-    li {
-      padding: 10px 20px;
-      transition: 0.1s;
+    .header {
+        font-family: $title-font;
+        color: $hl-green;
+        padding: 20px;
+        margin: 0;
     }
-  }
+
+    .side-list {
+        font-family: $font;
+        font-weight: bolder;
+        font-size: 1.2em;
+
+        max-height: 100%;
+        overflow-y: auto;
+
+        margin: 0;
+        padding: 0;
+
+        list-style: none;
+
+        li {
+            padding: 10px 20px;
+            transition: 0.1s;
+        }
+    }
+
+    .hide-arrow {
+        position: absolute;
+        bottom: 0;
+        padding: 15px;
+        transition: 0.15s;
+
+        &.right-arrow {
+            left: -40px;
+        }
+
+        &.left-arrow {
+            right: -40px;
+        }
+
+        &:hover {
+            color: $hl-white;
+            cursor: pointer;
+        }
+    }
 }
 
 #nav {
-  left: 0;
+    left: 0;
 
-  li {
-    &.active {
-      // background: $bg-mid;
-      color: $bg-top;
+    &.hidden {
+        transform: translateX(-100%);
     }
 
-    &:hover {
-      background: $hl-blue;
-      color: $hl-white;
-      cursor: pointer;
+    .hide-arrow.flipped {
+        transform: rotate(-180deg);
     }
-  }
+
+    li {
+        &.active {
+            // background: $bg-mid;
+            color: $bg-top;
+        }
+
+        &:hover {
+            background: $hl-blue;
+            color: $hl-white;
+            cursor: pointer;
+        }
+    }
 }
 
 #controls {
-  right: 0;
+    right: 0;
 
-  color: $bg-top;
+    color: $bg-top;
 
-  // restart button
-  .action.outline {
-    border: 2px solid $hl-blue;
-    color: $hl-blue;
-    background: transparent;
-    font-family: $font;
-    font-size: 1.2em;
-    font-weight: bolder;
-    padding: 10px 15px;
-    margin: 10px;
-    border-radius: 5px;
-    vertical-align: middle;
-
-    transition: 0.1s;
-
-    &:focus {
-      outline: none;
+    &.hidden {
+        transform: translateX(100%);
     }
 
-    &:hover {
-      background: $hl-blue;
-      color: $hl-white;
-      cursor: pointer;
-      box-shadow: 0 0 5px #000;
+    .hide-arrow.flipped {
+        transform: rotate(180deg);
     }
 
-    &:active {
-      background: $hl-green;
-      border-color: $hl-green;
-    }
-  }
-
-  .side-list {
-    box-sizing: border-box;
-    overflow: hidden;
-
-    li {
-      padding: 10px;
-      max-width: 100%;
-      overflow: hidden;
-      box-sizing: border-box;
-      transition: 0.1s;
-
-      animation: $fade-in-bottom;
-
-      &.removed {
-        animation: $fade-out-top;
-      }
-
-      .control.label {
-        border-bottom: 1px solid $bg-high;
-        padding: 10px;
-      }
-
-      input {
-        box-sizing: border-box;
+    // restart button
+    .action.outline {
+        border: 2px solid $hl-blue;
+        color: $hl-blue;
         background: transparent;
-        border: none;
-        border-bottom: 2px solid $bg-high;
-        color: $bg-top;
         font-family: $font;
         font-size: 1.2em;
-        padding: 10px;
-        width: 100%;
-        text-align: right;
+        font-weight: bolder;
+        padding: 10px 15px;
+        margin: 10px;
+        border-radius: 5px;
+        vertical-align: middle;
+
+        transition: 0.1s;
 
         &:focus {
-          outline: none;
-          border-bottom-color: $hl-green !important;
-        }
-      }
-
-      &:hover {
-        background: $hl-blue;
-        color: $hl-white;
-
-        .control.label {
-          border-bottom-color: $hl-white;
+            outline: none;
         }
 
-        input {
-          color: $hl-white !important;
-          border-bottom-color: $hl-white;
+        &:hover {
+            background: $hl-blue;
+            color: $hl-white;
+            cursor: pointer;
+            box-shadow: 0 0 5px #000;
         }
-      }
+
+        &:active {
+            background: $hl-green;
+            border-color: $hl-green;
+        }
     }
-  }
 
-  .action-container {
-    width: 100%;
-    text-align: center;
-  }
+    .side-list {
+        box-sizing: border-box;
+        overflow: hidden;
+
+        li {
+            padding: 10px;
+            max-width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+            transition: 0.1s;
+
+            animation: $fade-in-bottom;
+
+            &.removed {
+                animation: $fade-out-top;
+            }
+
+            .control.label {
+                border-bottom: 1px solid $bg-high;
+                padding: 10px;
+            }
+
+            input {
+                box-sizing: border-box;
+                background: transparent;
+                border: none;
+                border-bottom: 2px solid $bg-high;
+                color: $bg-top;
+                font-family: $font;
+                font-size: 1.2em;
+                padding: 10px;
+                width: 100%;
+                text-align: right;
+
+                &:focus {
+                    outline: none;
+                    border-bottom-color: $hl-green !important;
+                }
+            }
+
+            &:hover {
+                background: $hl-blue;
+                color: $hl-white;
+
+                .control.label {
+                    border-bottom-color: $hl-white;
+                }
+
+                input {
+                    color: $hl-white !important;
+                    border-bottom-color: $hl-white;
+                }
+            }
+        }
+    }
+
+    .action-container {
+        width: 100%;
+        text-align: center;
+    }
 }

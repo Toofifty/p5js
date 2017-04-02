@@ -1,44 +1,46 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <script src="https://use.fontawesome.com/44c5617e1f.js"></script>
-    <!-- internal -->
-    <link rel="stylesheet" href="css/main.css">
-    <title>p5js</title>
-  </head>
-  <body>
-    <div id="nav" class="side-panel">
-      <h1 class="header">sketches</h1>
-      <ul id="sketch-list" class="side-list">
-      </ul>
-    </div>
+    <head>
+        <meta charset="utf-8">
+        <script src="https://use.fontawesome.com/44c5617e1f.js"></script>
+        <!-- internal -->
+        <link rel="stylesheet" href="css/main.css">
+        <title>p5js</title>
+    </head>
+    <body>
+        <div id="nav" class="side-panel">
+            <h1 class="header">sketches</h1>
+            <ul id="sketch-list" class="side-list">
+            </ul>
+            <i class="hide-arrow left-arrow fa fa-arrow-left" onclick="page.toggle_nav()"></i>
+        </div>
 
-    <div id="main" class="main">
-      <div class="sketch-container fade">
-        <h1 id="title"></h1><h6 id="source-link">( <a href="#">source</a> )</h6>
-        <div id="sketch"></div>
-        <div id="description"></div>
-      </div>
-    </div>
+        <div id="main" class="main">
+            <div class="sketch-container fade">
+                <h1 id="title"></h1><h6 id="source-link">( <a href="#">source</a> )</h6>
+                <div id="sketch"></div>
+                <div id="description"></div>
+            </div>
+        </div>
 
-    <div id="controls" class="side-panel">
-      <h1 class="header">controls</h1>
-      <div class="action-container">
-        <button class="action outline" onclick="sketch.play_pause()"><i class="fa fa-pause"></i></button>
-        <button class="action outline" onclick="sketch.reload()"><i class="fa fa-refresh"></i></button>
-      </div>
-      <ul id="control-list" class="side-list">
-      </ul>
-    </div>
+        <div id="controls" class="side-panel">
+            <h1 class="header">controls</h1>
+            <div class="action-container">
+                <button class="action outline" onclick="sketch.play_pause()"><i class="fa fa-pause"></i></button>
+                <button class="action outline" onclick="sketch.reload()"><i class="fa fa-refresh"></i></button>
+            </div>
+            <ul id="control-list" class="side-list">
+            </ul>
+            <i class="hide-arrow right-arrow fa fa-arrow-right" onclick="page.toggle_controls()"></i>
+        </div>
 
-    <!-- libraries -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/p5.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/addons/p5.dom.min.js"></script>
-    <!-- local js -->
-    <script type="text/javascript" src="js/option.js"></script>
-    <script type="text/javascript" src="js/loader.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-  </body>
+        <!-- libraries -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/p5.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/addons/p5.dom.min.js"></script>
+        <!-- local js -->
+        <script type="text/javascript" src="js/option.js"></script>
+        <script type="text/javascript" src="js/loader.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+    </body>
 </html>
