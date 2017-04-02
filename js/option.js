@@ -7,7 +7,7 @@ var OPT = {
     sketches: [
         'lorenz',
         'shoot',
-        'test'
+        'chase'
     ]
 }
 

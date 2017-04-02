@@ -1,15 +1,15 @@
-var x = bind.number('x', 0.01)
-var y = bind.number('y', 0)
-var z = bind.number('z', 0)
+x = bind.number('x', 0.01)
+y = bind.number('y', 0)
+z = bind.number('z', 0)
 
-var a = bind.number('sigma', 10)
-var b = bind.number('rho', 28)
-var c = bind.number('beta', 8/3)
+a = bind.number('sigma', 10)
+b = bind.number('rho', 28)
+c = bind.number('beta', 8/3)
 
-var sw = bind.number('stroke_weight', 1)
+sw = bind.number('stroke_weight', 1)
 
-var speed = bind.number('speed', 1)
-var fade = bind.toggle('fade', false)
+speed = bind.number('speed', 1)
+fade = bind.toggle('fade', false)
 
 page.set_title('lorenz attractor')
 page.set_source()
@@ -20,7 +20,6 @@ setup = function () {
 	colorMode(HSB, 255)
 	stroke(255)
 	smooth(8)
-	background(32)
 }
 
 draw = function () {

@@ -2,13 +2,13 @@
  * For all settings relevant to the surrounding
  * page of the sketch, that are set by the sketch
  */
-var page = {
+const page = {
     /**
      * Set the title of the sketch
      * Hides the title if arg 1 is null
      */
     set_title: function (title) {
-        var $title = $('#title')
+        const $title = $('#title')
         if (title) {
             $title.text(title)
             if (!$title.hasClass('show')) {
@@ -24,7 +24,7 @@ var page = {
      * Hides the source link if arg 1 is null
      */
     set_source: function (url) {
-        var $source_link = $('#source-link')
+        const $source_link = $('#source-link')
         if (url) {
             $source_link.children('a').attr('href', url)
             if (!$source_link.hasClass('show')) {
@@ -40,7 +40,7 @@ var page = {
      * Hides the description if arg 1 is null
      */
     set_description: function (desc) {
-        var $description = $('#description')
+        const $description = $('#description')
         if (desc) {
             $description.html(desc)
             if (!$description.hasClass('show')) {
@@ -60,9 +60,13 @@ var page = {
         $('#nav-sketch-' + sketch_name).addClass('active')
     },
 
+    /**
+     * Hide/show the control panel on the right side
+     * of the page, and rotate the arrow button
+     */
     toggle_controls: function () {
-        var $controls = $('#controls')
-        var $arrow = $('.right-arrow')
+        const $controls = $('#controls')
+        const $arrow = $('.right-arrow')
         if ($controls.hasClass('hidden')) {
             $controls.removeClass('hidden')
             $arrow.removeClass('flipped')
@@ -72,9 +76,13 @@ var page = {
         }
     },
 
+    /**
+     * Hide/show the navigation panel on the left side
+     * of the page, and rotate the arrow button
+     */
     toggle_nav: function () {
-        var $nav = $('#nav')
-        var $arrow = $('.left-arrow')
+        const $nav = $('#nav')
+        const $arrow = $('.left-arrow')
         if ($nav.hasClass('hidden')) {
             $nav.removeClass('hidden')
             $arrow.removeClass('flipped')
@@ -84,15 +92,17 @@ var page = {
         }
     },
 
-    cover_delay: function () {
-        return parseFloat($('#cover').css('transition-duration')) * 1000
-    },
-
-    fade_in: function () {
+    /**
+     * Hide the sketch container
+     */
+    fade_out: function () {
         $('.sketch-container').addClass('fade')
     },
 
-    fade_out: function () {
+    /**
+     * Show the sketch container
+     */
+    fade_in: function () {
         $('.sketch-container').removeClass('fade')
     }
 }
@@ -101,41 +111,71 @@ var page = {
  * Loads the sketches into the main div, and binds variables
  * into toggles, sliders, and buttons in the control panel
  */
-var sketch = {
+const sketch = {
     name: '',
     canvas: null,
     container: $(OPT.sketch_container),
+    paused: false,
 
     width: 0,
     height: 0,
 
+    /**
+     * Load the current sketch again
+     */
     reload: function () {
         load(this.name)
     },
 
+    /**
+     * Toggle between play and pause
+     */
     play_pause: function () {
-        if ($('.fa-pause').length > 0) this.pause()
-        else this.play()
+        if (this.paused) this.play()
+        else this.pause()
     },
 
+    /**
+     * Pause the sketch using p5's noLoop()
+     */
     pause: function () {
         if (this.canvas) noLoop()
         $('.fa-pause').removeClass('fa-pause').addClass('fa-play')
+        this.paused = true
     },
 
+    /**
+     * Resume the sketch using p5's loop()
+     */
     play: function () {
         if (this.canvas) loop()
         $('.fa-play').removeClass('fa-play').addClass('fa-pause')
+        this.paused = false
     },
 
+    /**
+     * Load the p5 canvas (only need to be done once)
+     */
     load_canvas: function () {
         this.width = this.container.width()
         this.height = this.container.height()
-
         this.canvas = createCanvas(this.width, this.height)
+        // move sketch into the sketch container
         this.canvas.parent(OPT.sketch_container);
-
         console.log('SKETCH: Canvas loaded')
+    },
+
+    /**
+     * Reset some p5 options
+     */
+    reset_p5: function () {
+        colorMode(RGB)
+        smooth(1)
+        fill(255)
+        stroke(255)
+        strokeWeight(1)
+        frameRate(60)
+        background(32)
     }
 }
 
@@ -146,6 +186,9 @@ var sketch = {
 const bind = {
     controls: {},
 
+    /**
+     * Create a boolean toggle
+     */
     toggle: function (label, value) {
         let name = label.toLowerCase().replace(' ', '_')
         console.log('BIND: toggle::' + name)
@@ -175,6 +218,9 @@ const bind = {
         return control
     },
 
+    /**
+     * Create a number input
+     */
     number: function (label, value, min, max, step) {
         value = parseFloat(value)
         let name = label.toLowerCase().replace(' ', '_')
@@ -213,14 +259,20 @@ const bind = {
         return {}
     },
 
+    /**
+     * Destroy all bound inputs from the control panel
+     */
     destroy: function () {
         let self = this
-        for (i in this.controls) {
+
+        // fade out first
+        for (let i in this.controls) {
             this.controls[i].el.addClass('removed')
         }
+
         setTimeout(function () {
-            for (i in self.controls) {
-                console.log(self.controls)
+            // remove shortly after
+            for (let i in self.controls) {
                 self.controls[i].el.remove()
             }
             self.controls = {}
@@ -229,10 +281,18 @@ const bind = {
     }
 }
 
-var load = function (sketch_name) {
-    page.fade_in()
-    bind.destroy()
+/**
+ * Load and setup a sketch via ajax that should be located in
+ * /sketch/(sketch_name).js
+ */
+const load = function (sketch_name) {
+    // pause and clean up old sketch
+    page.fade_out()
     sketch.pause()
+    bind.destroy()
+
+    // delay the new sketch in the hopes that bind.destroy()
+    // has already completed
     setTimeout(function () {
         sketch.name = sketch_name
         page.set_active(sketch_name)
@@ -240,8 +300,9 @@ var load = function (sketch_name) {
         $.getScript(OPT.host + OPT.sketch_dir + sketch_name + '.js')
             .done(function (script, status) {
                 console.log(script)
+                sketch.reset_p5()
                 setup()
-                page.fade_out()
+                page.fade_in()
             })
             .fail(function (request, settings, exception) {
                 console.error(request.responseText)
@@ -260,19 +321,13 @@ var setup = function () {
 }
 
 var draw = function () {
-    console.log('Dummy sketch is still drawing')
+    // console.log('Dummy sketch is still drawing')
 }
 
-var mousePressed = function () {
-    console.log('Dummy mouse pressed')
-}
-
-var keyPressed = function () {
-    console.log('Dummy key pressed')
-}
-
+// delay the start of the initial sketch so there
+// isn't a huge load time to show the page
 setTimeout(function () {
     setup()
     // load in the first (default) sketch
-    load(OPT.sketches[0])
+    // load(OPT.sketches[0])
 }, 2000)
