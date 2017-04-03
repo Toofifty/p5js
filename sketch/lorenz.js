@@ -1,18 +1,17 @@
-x = bind.number('x', 0.01)
-y = bind.number('y', 0)
-z = bind.number('z', 0)
+var x = bind.number('x', 0.01)
+var y = bind.number('y', 0)
+var z = bind.number('z', 0)
 
-a = bind.number('sigma', 10)
-b = bind.number('rho', 28)
-c = bind.number('beta', 8/3)
+var a = bind.number('sigma', 10)
+var b = bind.number('rho', 28)
+var c = bind.number('beta', 8/3)
 
-sw = bind.number('stroke_weight', 1)
+var sw = bind.number('stroke_weight', 1)
 
-speed = bind.number('speed', 1)
-fade = bind.toggle('fade', false)
+var speed = bind.number('speed', 1)
+var fade = bind.toggle('fade', false)
 
 page.set_title('lorenz attractor')
-page.set_source()
 page.set_description('A Lorenz Attractor, a "set of chaotic solutions of the Lorenz system which, when plotted, resemble a butterfly or figure eight."<br><a href="https://en.wikipedia.org/wiki/Lorenz_system">Wikipedia</a>')
 
 setup = function () {

@@ -1,12 +1,11 @@
-g = bind.number('gravity', 98)
-ball_amount = bind.number('balls', 1)
-max_size = bind.number('max_size', 100)
+var g = bind.number('gravity', 98)
+var ball_amount = bind.number('balls', 1)
+var max_size = bind.number('max_size', 100)
 
-balls = []
-sel = null
+var balls = []
+var sel = null
 
 page.set_title('ball shoot')
-page.set_source()
 page.set_description('Click a ball, aim and shoot. Press SPACE to stop all balls and B to add a new ball.')
 
 setup = function () {
@@ -65,16 +64,16 @@ keyPressed = function () {
     }
 }
 
-new_ball = function (id) {
+var new_ball = function (id) {
     return new Ball(id, random(sketch.width), random(sketch.height), random(10, max_size.v))
 }
 
-update_ball_amount = function () {
+var update_ball_amount = function () {
     while (balls.length > ball_amount.v) balls.pop()
     while (balls.length < ball_amount.v) balls.push(new_ball(balls.length))
 }
 
-Ball = function (id, x, y, size) {
+var Ball = function (id, x, y, size) {
     this.id = id
     this.x = x
     this.y = y

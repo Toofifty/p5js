@@ -1,19 +1,18 @@
-ndots = bind.number('dots', 10)
-size  = bind.number('dot_size', 8)
-G     = bind.number('gravity', 0.1)
-spr   = bind.number('spread', 0.005)
+var ndots = bind.number('dots', 10)
+var size  = bind.number('dot_size', 8)
+var G     = bind.number('gravity', 0.1)
+var spr   = bind.number('spread', 0.005)
 
-attract = bind.toggle('attract', true)
+var attract = bind.toggle('attract', true)
 
-maxdist = dist(0, 0, sketch.width, sketch.height)
+var maxdist = dist(0, 0, sketch.width, sketch.height)
 
-dots = []
-md = false
+var dots = []
+var md = false
 
-dirs = 4
+var dirs = 4
 
 page.set_title('dot chase')
-page.set_source()
 page.set_description('Point and click to attract some dots.')
 
 setup = function () {
@@ -49,20 +48,20 @@ mouseReleased = function () {
     md = false
 }
 
-update_dot_amount = function () {
+var update_dot_amount = function () {
     while (dots.length > ndots.v) dots.pop()
     while (dots.length < ndots.v) dots.push(new_dot(dots.length))
 }
 
-rand_bounce = function () {
+var rand_bounce = function () {
     return random(0.3, 0.5)
 }
 
-new_dot = function (id) {
+var new_dot = function (id) {
     return new Dot(id, random(sketch.width), random(sketch.height))
 }
 
-Dot = function (id, x, y) {
+var Dot = function (id, x, y) {
     this.id = id
     this.x = x
     this.y = y

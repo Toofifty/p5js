@@ -296,6 +296,7 @@ const load = function (sketch_name) {
     setTimeout(function () {
         sketch.name = sketch_name
         page.set_active(sketch_name)
+        page.set_source(OPT.source_base_url + sketch_name + '.js')
 
         $.getScript(OPT.host + OPT.sketch_dir + sketch_name + '.js')
             .done(function (script, status) {
@@ -329,5 +330,5 @@ var draw = function () {
 setTimeout(function () {
     setup()
     // load in the first (default) sketch
-    // load(OPT.sketches[0])
+    if (!OPT.dev) load(OPT.sketches[0])
 }, 2000)
